@@ -33,6 +33,7 @@ const ContactCard = ({ contact, setShowModal, setEditingContact }) => {
             <p>Email: {contact.email}</p>
             <p>Phone: {contact.phone}</p>
             <p>Status: <span className="capitalize">{contact.status}</span></p>
+            <p>Preferred Contact: <span className="capitalize">{contact.preferredContactMethod}</span></p>
             {currentUser.role === 'admin' && <p>Sales Person: {salesPerson?.name}</p>}
             <p>Last Contact: {contact.lastContact} ({days} days ago)</p>
             {contact.notes && <p>Notes: {contact.notes}</p>}

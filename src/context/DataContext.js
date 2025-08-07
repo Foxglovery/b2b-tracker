@@ -17,7 +17,8 @@ export const DataProvider = ({ children }) => {
       lastContact: '2024-06-20',
       status: 'prospect',
       salesPerson: 'alice',
-      notes: 'Interested in premium package'
+      notes: 'Interested in premium package',
+      preferredContactMethod: 'email'
     },
     {
       id: 2,
@@ -27,7 +28,8 @@ export const DataProvider = ({ children }) => {
       lastContact: '2024-06-25',
       status: 'qualified',
       salesPerson: 'bob',
-      notes: 'Follow up on pricing discussion'
+      notes: 'Follow up on pricing discussion',
+      preferredContactMethod: 'phone'
     },
     {
       id: 3,
@@ -37,7 +39,8 @@ export const DataProvider = ({ children }) => {
       lastContact: '2024-05-15',
       status: 'cold',
       salesPerson: 'alice',
-      notes: 'Need to reconnect after vacation'
+      notes: 'Need to reconnect after vacation',
+      preferredContactMethod: 'text'
     }
   ]);
 

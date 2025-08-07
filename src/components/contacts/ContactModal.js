@@ -11,6 +11,7 @@ const ContactModal = ({ editingContact, closeModal }) => {
     email: '',
     phone: '',
     status: 'prospect',
+    preferredContactMethod: 'email',
     notes: ''
   });
 
@@ -67,6 +68,18 @@ const ContactModal = ({ editingContact, closeModal }) => {
             >
               {['prospect','qualified','proposal','negotiation','closed','cold']
                 .map(opt => <option key={opt} value={opt}>{opt}</option>)}
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-1">Preferred Contact Method</label>
+            <select
+              name="preferredContactMethod"
+              value={form.preferredContactMethod}
+              onChange={handleChange}
+              className="w-full p-2 border rounded-lg"
+            >
+              {['email', 'phone', 'text'].map(opt => <option key={opt} value={opt}>{opt}</option>)}
             </select>
           </div>
 
