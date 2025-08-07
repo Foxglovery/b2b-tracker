@@ -45,6 +45,13 @@ const ContactCard = ({ contact, setShowModal, setEditingContact, setSelectedCont
           <div className="text-sm text-gray-600 space-y-1">
             <p>Email: {contact.email}</p>
             <p>Phone: {contact.phone}</p>
+            {contact.address && (
+              <div>
+                <p>Address:</p>
+                <p className="ml-4"> {contact.address}</p>
+                <p className="ml-4">{contact.city}, {contact.state} {contact.zip}</p>
+              </div>
+            )}
             <p>Status: <span className="capitalize">{contact.status}</span></p>
             <p>Preferred Contact: <span className="capitalize">{contact.preferredContactMethod}</span></p>
             {currentUser.role === 'admin' && <p>Sales Person: {salesPerson?.name}</p>}

@@ -10,6 +10,10 @@ const ContactModal = ({ editingContact, closeModal }) => {
     name: '',
     email: '',
     phone: '',
+    address: '',
+    city: '',
+    state: '',
+    zip: '',
     status: 'prospect',
     preferredContactMethod: 'email',
     notes: ''
@@ -57,6 +61,55 @@ const ContactModal = ({ editingContact, closeModal }) => {
               />
             </div>
           ))}
+
+          {/* Address fields */}
+          <div>
+            <label className="block text-sm font-medium mb-1">Address</label>
+            <input
+              type="text"
+              name="address"
+              value={form.address}
+              onChange={handleChange}
+              className="w-full p-2 border rounded-lg"
+              placeholder="Street address"
+            />
+          </div>
+
+          <div className="grid grid-cols-3 gap-4">
+            <div>
+              <label className="block text-sm font-medium mb-1">City</label>
+              <input
+                type="text"
+                name="city"
+                value={form.city}
+                onChange={handleChange}
+                className="w-full p-2 border rounded-lg"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1">State</label>
+              <input
+                type="text"
+                name="state"
+                value={form.state}
+                onChange={handleChange}
+                className="w-full p-2 border rounded-lg"
+                maxLength="2"
+                placeholder="IL"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1">ZIP</label>
+              <input
+                type="text"
+                name="zip"
+                value={form.zip}
+                onChange={handleChange}
+                className="w-full p-2 border rounded-lg"
+                placeholder="60601"
+              />
+            </div>
+          </div>
 
           <div>
             <label className="block text-sm font-medium mb-1">Status</label>
