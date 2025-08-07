@@ -5,6 +5,7 @@ export const useData = () => useContext(DataContext);
 
 // ---------- helpers ----------
 const todayISO = () => new Date().toISOString().split('T')[0];
+const nowISO = () => new Date().toISOString();
 
 export const DataProvider = ({ children }) => {
   /* seed data (swap for Firestore later) */
@@ -55,7 +56,7 @@ export const DataProvider = ({ children }) => {
       id: 1,
       contactId: 1,
       type: 'phone',
-      date: '2024-06-20',
+      date: '2024-06-20T14:30:00.000Z',
       notes: 'Discussed pricing and timeline',
       salesPerson: 'alice',
       salesPersonName: 'Alice Johnson',
@@ -65,7 +66,7 @@ export const DataProvider = ({ children }) => {
       id: 2,
       contactId: 2,
       type: 'email',
-      date: '2024-06-25',
+      date: '2024-06-25T09:15:00.000Z',
       notes: 'Sent proposal document',
       salesPerson: 'bob',
       salesPersonName: 'Bob Smith',
@@ -101,7 +102,7 @@ export const DataProvider = ({ children }) => {
         id: Date.now(),
         contactId,
         type: method,
-        date: todayISO(),
+        date: new Date().toISOString(), // Include full timestamp
         notes: notes || `Contacted via ${method}`,
         salesPerson,
         salesPersonName: salesPersonUser?.name || 'Unknown User',

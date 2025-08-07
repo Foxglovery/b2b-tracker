@@ -50,9 +50,15 @@ const Dashboard = () => {
         <div className="p-6">
           <h3 className="text-lg font-semibold mb-4">Recent Activities</h3>
           <div className="space-y-4">
-            {activities.slice(0, 5).map(activity => (
-              <ActivityItem key={activity.id} activity={activity} />
-            ))}
+            {activities
+              .filter(activity => 
+                currentUser?.role === 'admin' || 
+                activity.salesPerson === currentUser?.id
+              )
+              .slice(0, 5)
+              .map(activity => (
+                <ActivityItem key={activity.id} activity={activity} />
+              ))}
           </div>
         </div>
       </div>

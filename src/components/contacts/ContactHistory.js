@@ -1,13 +1,19 @@
 import React from 'react';
+import { useAuth } from '../../context/AuthContext';
 import { useData } from '../../context/DataContext';
 import { Phone, Mail, MessageSquare } from 'lucide-react';
 
 const ContactHistory = ({ contactId }) => {
+  const { currentUser } = useAuth();
   const { activities, users } = useData();
   
-  // Filter activities for this specific contact
+  // Filter activities for this specific contact and apply role-based access control
   const contactActivities = activities
     .filter(activity => activity.contactId === contactId)
+    .filter(activity => 
+      currentUser?.role === 'admin' || 
+      activity.salesPerson === currentUser?.id
+    )
     .sort((a, b) => new Date(b.date) - new Date(a.date));
 
   const getIcon = (type) => {
@@ -38,12 +44,13 @@ const ContactHistory = ({ contactId }) => {
 
   const formatDate = (dateStr) => {
     const date = new Date(dateStr);
-    return date.toLocaleDateString('en-US', {
+    return date.toLocaleString('en-US', {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
+      hour12: true
     });
   };
 

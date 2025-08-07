@@ -6,6 +6,18 @@ const ActivityItem = ({ activity }) => {
   const { contacts } = useData();
   const contact = contacts.find(c => c.id === activity.contactId);
 
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr);
+    return date.toLocaleString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
+  };
+
   const getIcon = (type) => {
     switch (type) {
       case 'phone':
@@ -46,7 +58,7 @@ const ActivityItem = ({ activity }) => {
         <p className="text-sm text-gray-600">{activity.notes}</p>
         <p className="text-xs text-gray-500">by {activity.salesPersonName}</p>
       </div>
-      <div className="absolute bottom-2 right-2 text-xs text-gray-400">{activity.date}</div>
+      <div className="absolute bottom-0 right-2 text-xs text-gray-400">{formatDate(activity.date)}</div>
     </div>
   );
 };
