@@ -8,7 +8,7 @@ const NavLink = ({ to, children }) => {
   return (
     <Link
       to={to}
-      className={`px-3 py-2 rounded ${active ? 'bg-blue-700 text-white' : 'hover:bg-blue-700 hover:text-white'}`}
+      className={`px-3 py-2 rounded text-sm sm:text-base whitespace-nowrap ${active ? 'bg-blue-700 text-white' : 'hover:bg-blue-700 hover:text-white'}`}
     >
       {children}
     </Link>
@@ -22,18 +22,20 @@ const Navigation = () => {
   if (!currentUser) return null; // hide nav on login page
 
   return (
-    <nav className="bg-blue-600 p-4 text-white flex justify-between">
-      <h1 className="font-bold">Sales Tracker</h1>
-      <div className="flex items-center gap-4">
-        <NavLink to="/">Dashboard</NavLink>
-        <NavLink to="/contacts">Contacts</NavLink>
-        {currentUser.role === 'admin' && <NavLink to="/admin">Admin</NavLink>}
-        <button
-          onClick={() => { setCurrentUser(null); navigate('/login'); }}
-          className="underline text-sm"
-        >
-          Logout
-        </button>
+    <nav className="bg-blue-600 text-white w-full">
+      <div className="px-4 py-3 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+        <h1 className="font-bold text-lg">Sales Tracker</h1>
+        <div className="flex flex-wrap items-center gap-2 sm:gap-4">
+          <NavLink to="/">Dashboard</NavLink>
+          <NavLink to="/contacts">Contacts</NavLink>
+          {currentUser.role === 'admin' && <NavLink to="/admin">Admin</NavLink>}
+          <button
+            onClick={() => { setCurrentUser(null); navigate('/login'); }}
+            className="underline text-sm px-3 py-2 rounded hover:bg-blue-700"
+          >
+            Logout
+          </button>
+        </div>
       </div>
     </nav>
   );

@@ -22,31 +22,31 @@ const ActivityItem = ({ activity }) => {
   const getMethodLabel = (type) => {
     switch (type) {
       case 'phone':
-        return 'Phone Call';
+        return 'Call';
       case 'email':
         return 'Email';
       case 'text':
-        return 'Text Message';
+        return 'Text';
       default:
         return 'Contact';
     }
   };
 
   return (
-    <div className="flex items-center space-x-4 p-4 border rounded-lg">
-      <div className="flex-shrink-0">
+    <div className="flex items-start space-x-4 p-4 border rounded-lg relative">
+      <div className="flex-shrink-0 flex items-start mt-8">
         {getIcon(activity.type)}
       </div>
-      <div className="flex-grow">
-                 <div className="flex items-center space-x-2">
-           <p className="font-medium">{activity.clientName || contact?.name}</p>
-           <span className="text-xs text-gray-500">•</span>
-           <p className="text-sm text-gray-600">{getMethodLabel(activity.type)}</p>
-         </div>
+      <div className="flex-grow min-w-0">
+        <div className="flex items-center space-x-2 min-w-0">
+          <p className="font-medium">{activity.clientName || contact?.name}</p>
+          <span className="text-xs text-gray-500">•</span>
+          <p className="text-sm text-gray-600">{getMethodLabel(activity.type)}</p>
+        </div>
         <p className="text-sm text-gray-600">{activity.notes}</p>
         <p className="text-xs text-gray-500">by {activity.salesPersonName}</p>
       </div>
-      <div className="text-sm text-gray-500">{activity.date}</div>
+      <div className="absolute bottom-2 right-2 text-xs text-gray-400">{activity.date}</div>
     </div>
   );
 };
