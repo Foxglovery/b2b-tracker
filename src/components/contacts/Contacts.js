@@ -4,6 +4,7 @@ import { useData } from '../../context/DataContext';
 import { Plus } from 'lucide-react';
 import ContactCard from './ContactCard';
 import ContactModal from './ContactModal';
+import ContactHistory from './ContactHistory';
 
 const Contacts = () => {
   const { currentUser } = useAuth();
@@ -11,6 +12,7 @@ const Contacts = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [editingContact, setEditingContact] = useState(null);
+  const [selectedContactId, setSelectedContactId] = useState(null);
 
   const daysSinceContact = (lastContact) => {
     const today = new Date();
@@ -61,6 +63,7 @@ const Contacts = () => {
             contact={contact}
             setShowModal={setShowModal}
             setEditingContact={setEditingContact}
+            setSelectedContactId={setSelectedContactId}
           />
         ))}
       </div>
@@ -73,6 +76,22 @@ const Contacts = () => {
             setEditingContact(null);
           }}
         />
+      )}
+
+      {/* Contact Logs Modal */}
+      {selectedContactId && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg max-w-lg w-full p-6 relative">
+            <button
+              onClick={() => setSelectedContactId(null)}
+              className="absolute top-2 right-2 p-1 hover:bg-gray-100 rounded"
+              title="Close Logs"
+            >
+              ×
+            </button>
+            <ContactHistory contactId={selectedContactId} />
+          </div>
+        </div>
       )}
     </div>
   );

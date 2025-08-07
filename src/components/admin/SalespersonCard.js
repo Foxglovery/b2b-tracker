@@ -12,7 +12,7 @@ const hue = {
 };
 
 const SalespersonCard = ({ salesperson }) => {
-  const { contacts } = useData();
+  const { contacts, users } = useData();
   const myContacts = contacts.filter(c => c.salesPerson === salesperson.id);
 
   const stats = {
@@ -51,9 +51,15 @@ const SalespersonCard = ({ salesperson }) => {
           .map(c => {
             const d = daysSince(c.lastContact);
             const lvl = urgency(d);
+            const contactSalesPerson = users.find(u => u.id === c.salesPerson);
             return (
-              <div key={c.id} className={`p-3 rounded border ${hue[lvl]} flex justify-between`}>
-                <span>{c.name}</span>
+              <div key={c.id} className={`p-3 rounded border ${hue[lvl]} flex justify-between items-center`}>
+                <div>
+                  <span>{c.name}</span>
+                  <span className="text-xs text-gray-500 italic ml-2">
+                    overseen by: {contactSalesPerson?.name || 'Unknown'}
+                  </span>
+                </div>
                 <span className="text-sm text-gray-600">{d} d</span>
               </div>
             );

@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useData } from '../../context/DataContext';
-import { CheckCircle, Edit2, Trash2 } from 'lucide-react';
+import { Mail, Phone, MessageSquare, Edit2, Trash2, List } from 'lucide-react';
+import ContactNotesModal from './ContactNotesModal';
+import ContactHistory from './ContactHistory';
 
 /* small helpers */
 const daysSince = (dateStr) => {
@@ -16,13 +18,24 @@ const hue = {
   critical: 'bg-red-100 border-red-300'
 };
 
-const ContactCard = ({ contact, setShowModal, setEditingContact }) => {
+const ContactCard = ({ contact, setShowModal, setEditingContact, setSelectedContactId }) => {
   const { currentUser } = useAuth();
   const { users, deleteContact, markContactedToday } = useData();
+  const [showNotesModal, setShowNotesModal] = useState(false);
+  const [selectedMethod, setSelectedMethod] = useState(null);
 
   const days = daysSince(contact.lastContact);
   const level = urgency(days);
   const salesPerson = users.find(u => u.id === contact.salesPerson);
+
+  const handleContactAction = (method) => {
+    setSelectedMethod(method);
+    setShowNotesModal(true);
+  };
+
+  const handleSaveNotes = (notes) => {
+    markContactedToday(contact.id, currentUser.id, selectedMethod, notes);
+  };
 
   return (
     <div className={`p-4 rounded-lg border-2 ${hue[level]}`}>
@@ -41,13 +54,29 @@ const ContactCard = ({ contact, setShowModal, setEditingContact }) => {
         </div>
 
         <div className="flex flex-col items-end space-y-2">
-          <button
-            onClick={() => markContactedToday(contact.id, currentUser.id)}
-            className="p-2 text-green-600 hover:bg-green-100 rounded"
-            title="Mark contacted today"
-          >
-            <CheckCircle className="h-4 w-4" />
-          </button>
+          <div className="flex space-x-1">
+            <button
+              onClick={() => handleContactAction('email')}
+              className="p-2 text-blue-600 hover:bg-blue-100 rounded"
+              title="Mark contacted via email"
+            >
+              <Mail className="h-4 w-4" />
+            </button>
+            <button
+              onClick={() => handleContactAction('phone')}
+              className="p-2 text-green-600 hover:bg-green-100 rounded"
+              title="Mark contacted via phone"
+            >
+              <Phone className="h-4 w-4" />
+            </button>
+            <button
+              onClick={() => handleContactAction('text')}
+              className="p-2 text-purple-600 hover:bg-purple-100 rounded"
+              title="Mark contacted via text"
+            >
+              <MessageSquare className="h-4 w-4" />
+            </button>
+          </div>
           <button
             onClick={() => {
               setEditingContact(contact);
@@ -65,8 +94,24 @@ const ContactCard = ({ contact, setShowModal, setEditingContact }) => {
           >
             <Trash2 className="h-4 w-4" />
           </button>
+          <button
+            onClick={() => setSelectedContactId(contact.id)}
+            className="p-2 text-gray-600 hover:bg-gray-100 rounded"
+            title="View Contact Logs"
+          >
+            <List className="h-4 w-4" />
+          </button>
         </div>
       </div>
+      
+      {showNotesModal && (
+        <ContactNotesModal
+          contact={contact}
+          method={selectedMethod}
+          onSave={handleSaveNotes}
+          onClose={() => setShowNotesModal(false)}
+        />
+      )}
     </div>
   );
 };

@@ -54,10 +54,12 @@ export const DataProvider = ({ children }) => {
     {
       id: 1,
       contactId: 1,
-      type: 'call',
+      type: 'phone',
       date: '2024-06-20',
       notes: 'Discussed pricing and timeline',
-      salesPerson: 'alice'
+      salesPerson: 'alice',
+      salesPersonName: 'Alice Johnson',
+      clientName: 'ABC Corp'
     },
     {
       id: 2,
@@ -65,7 +67,9 @@ export const DataProvider = ({ children }) => {
       type: 'email',
       date: '2024-06-25',
       notes: 'Sent proposal document',
-      salesPerson: 'bob'
+      salesPerson: 'bob',
+      salesPersonName: 'Bob Smith',
+      clientName: 'XYZ Industries'
     }
   ]);
 
@@ -83,7 +87,10 @@ export const DataProvider = ({ children }) => {
     setActivities(prev => prev.filter(a => a.contactId !== id)); // tidy logs
   }, []);
 
-  const markContactedToday = useCallback((contactId, salesPerson) => {
+  const markContactedToday = useCallback((contactId, salesPerson, method = 'phone', notes = '') => {
+    const contact = contacts.find(c => c.id === contactId);
+    const salesPersonUser = users.find(u => u.id === salesPerson);
+    
     setContacts(prev =>
       prev.map(c =>
         c.id === contactId ? { ...c, lastContact: todayISO(), salesPerson } : c
@@ -93,14 +100,16 @@ export const DataProvider = ({ children }) => {
       {
         id: Date.now(),
         contactId,
-        type: 'call',
+        type: method,
         date: todayISO(),
-        notes: 'Marked as contacted',
-        salesPerson
+        notes: notes || `Contacted via ${method}`,
+        salesPerson,
+        salesPersonName: salesPersonUser?.name || 'Unknown User',
+        clientName: contact?.name || 'Unknown Client'
       },
       ...prev
     ]);
-  }, []);
+  }, [contacts, users]);
 
   return (
     <DataContext.Provider
